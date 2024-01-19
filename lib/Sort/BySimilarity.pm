@@ -13,12 +13,14 @@ use Text::Levenshtein::XS;
 # VERSION
 
 our @EXPORT_OK = qw(
+                       gen_sorter_by_similarity
                        sort_by_similarity
                );
-#cmp_by_similarity
+#gen_cmp_by_similarity
 
-sub sort_by_similarity {
+sub gen_sorter_by_similarity {
     my ($is_reverse, $is_ci, $args) = @_;
+    $args //= {};
 
     sub {
         my @items = @_;
@@ -34,6 +36,13 @@ sub sort_by_similarity {
                 ($is_reverse ? $a <=> $b : $b <=> $a)
             } 0 .. $#items;
     };
+}
+
+sub sort_by_similarity {
+    my $is_reverse = shift;
+    my $is_ci = shift;
+    my $args = shift;
+    gen_sorter_by_similarity($is_reverse, $is_ci, $args)->(@_);
 }
 
 1;
