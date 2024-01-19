@@ -32,8 +32,8 @@ sub gen_sorter_by_similarity {
         }
 
         map { $items[$_] } sort {
-            ($is_reverse ? $distances[$a] <=> $distances[$b] : $distances[$b] <=> $distances[$a]) ||
-                ($is_reverse ? $a <=> $b : $b <=> $a)
+            ($is_reverse ? $distances[$b] <=> $distances[$a] : $distances[$a] <=> $distances[$b]) ||
+                ($is_reverse ? $b <=> $a : $a <=> $b)
             } 0 .. $#items;
     };
 }
